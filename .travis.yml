@@ -1,18 +1,14 @@
 language: java
 jdk:
   - oraclejdk8
-sudo: required
+sudo: false
 
 services:
   - docker
 
-install:
-  - mvn clean compile -DskipTests
-  - mvn test
+after_success:
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - mvn install -DskipTests -Pdefault,docker
   - mvn deploy -DskipTests -Pdocker
-
-after_success:
   - docker tag marketreaction/sentiment:$TRAVIS_BUILD_NUMBER marketreaction/sentiment:latest
   - docker push marketreaction/sentiment:latest
