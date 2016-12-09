@@ -6,6 +6,10 @@ sudo: false
 services:
   - docker
 
+cache:
+  directories:
+  - $HOME/.m2
+
 after_success:
   - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - mvn install -DskipTests -Pdefault,docker
