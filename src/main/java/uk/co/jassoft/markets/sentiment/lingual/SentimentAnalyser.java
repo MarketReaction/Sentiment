@@ -7,6 +7,7 @@ package uk.co.jassoft.markets.sentiment.lingual;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import uk.co.jassoft.markets.datamodel.story.NamedEntities;
 import uk.co.jassoft.markets.datamodel.story.NamedEntity;
 import org.slf4j.Logger;
@@ -30,6 +31,9 @@ import java.util.stream.Stream;
 public class SentimentAnalyser {
 
     private static final Logger LOG = LoggerFactory.getLogger(SentimentAnalyser.class);
+
+    @Value("${SENTIMENT_API_REST_URL}")
+    private String sentimentUrlRestUrl;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -56,7 +60,7 @@ public class SentimentAnalyser {
                     MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
                     map.add("text", sentiment.getSentence());
 
-                    String response = restTemplate.postForObject("http://sentiment-api:8888", map, String.class);
+                    String response = restTemplate.postForObject(sentimentUrlRestUrl, map, String.class);
 
                     JsonNode root = mapper.readTree(response);
 

@@ -1,5 +1,6 @@
 package uk.co.jassoft.markets;
 
+import org.springframework.beans.factory.annotation.Value;
 import uk.co.jassoft.markets.datamodel.company.Company;
 import uk.co.jassoft.markets.datamodel.company.CompanyBuilder;
 import uk.co.jassoft.markets.datamodel.company.sentiment.StorySentiment;
@@ -43,7 +44,7 @@ import static org.mockito.Mockito.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = SpringConfiguration.class)
-@IntegrationTest
+@IntegrationTest(value = "SENTIMENT_API_REST_URL=http://sentiment-api:8888")
 public class StorySentimentListenerTest extends BaseRepositoryTest {
 
     @Autowired
